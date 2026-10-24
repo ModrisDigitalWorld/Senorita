@@ -42,7 +42,7 @@ const ALLOWED_ORIGINS = [
 //     credentials: true,
 //   })
 // );
-app.use(cors({origin:process.env.FRONTEND_URL || "https://senorita-tawny.vercel.app"}))
+app.use(cors({origin:process.env.FRONTEND_URL || "https://senorita-tawny.vercel.app",credentials:true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
