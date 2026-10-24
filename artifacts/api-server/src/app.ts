@@ -18,30 +18,31 @@ const ALLOWED_ORIGINS = [
     : []),
 ].filter(Boolean) as string[];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) {
-        callback(null, true);
-        return;
-      }
-      if (
-        ALLOWED_ORIGINS.some((allowed) => origin === allowed) ||
-        origin.endsWith(".replit.dev") ||
-        origin.endsWith(".repl.co") ||
-        origin.endsWith(".senoritastore.com") ||
-        origin.endsWith(".vercel.app")
-      ) {
-        callback(null, true);
-      } else if (process.env.NODE_ENV !== "production") {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS: origin '${origin}' not allowed`));
-      }
-    },
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin) {
+//         callback(null, true);
+//         return;
+//       }
+//       if (
+//         ALLOWED_ORIGINS.some((allowed) => origin === allowed) ||
+//         origin.endsWith(".replit.dev") ||
+//         origin.endsWith(".repl.co") ||
+//         origin.endsWith(".senoritastore.com") ||
+//         origin.endsWith(".vercel.app")
+//       ) {
+//         callback(null, true);
+//       } else if (process.env.NODE_ENV !== "production") {
+//         callback(null, true);
+//       } else {
+//         callback(new Error(`CORS: origin '${origin}' not allowed`));
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
+app.use(cors({origin:process.env.FRONTEND_URL,credentials:true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
