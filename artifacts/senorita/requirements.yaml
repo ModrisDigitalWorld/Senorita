@@ -1,0 +1,23 @@
+packages:
+  "framer-motion": "For cinematic scroll reveals, heartbeat animations, and smooth hover effects"
+  "clsx": "For conditional class merging"
+  "tailwind-merge": "For merging Tailwind classes in UI components"
+
+images:
+  - path: "artifacts/senorita/public/images/hero-bg.png"
+    description: "Cinematic ultra-dark seductive luxury streetwear fashion shot, mysterious girl silhouette, neon pink and violet rim lighting, glowing atmospheric smoke, 16:9"
+    aspect_ratio: "16:9"
+  - path: "artifacts/senorita/public/images/midnight-edit.png"
+    description: "Dark luxury editorial fashion banner, midnight blue and deep magenta gradient, sparkling silk textures, mysterious sensual mood, 16:9"
+    aspect_ratio: "16:9"
+  - path: "artifacts/senorita/public/images/look-1.png"
+    description: "Seductive luxury streetwear fashion photography, neon violet and pink lighting, dark club aesthetic, 3:4"
+    aspect_ratio: "3:4"
+  - path: "artifacts/senorita/public/images/look-2.png"
+    description: "Chrome metallic futuristic fashion style, glowing neon accents, high fashion editorial, dark background, 3:4"
+    aspect_ratio: "3:4"
+
+notes:
+  - Frontend-only application with mock data.
+  - No backend API integration required.
+  - Entire site forced into dark mode luxury aesthetic.

@@ -1,0 +1,78 @@
+You are a senior full-stack architect with 12+ years experience building production e-commerce platforms (like Shopify, Medusa, Saleor level).
+
+Build a **complete, modern, full-fledged E-commerce CMS + Storefront** using this exact tech stack (2026 best practices):
+
+**Tech Stack:**
+- Next.js 15 (App Router) + React 19 + TypeScript
+- Tailwind CSS + Shadcn/ui + Radix UI + Lucide icons
+- Prisma ORM + PostgreSQL (use Neon or Supabase Postgres)
+- NextAuth.js v5 or Clerk (with email + Google + magic link)
+- Stripe (Payments + Checkout + Webhooks + Customer portal)
+- Resend + React Email (for order confirmation, reset password, etc.)
+- UploadThing or Cloudinary (for image uploads)
+- Zod + React Hook Form
+- TanStack Query (React Query) + Zustand for state
+- Recharts or Tremor for admin analytics dashboard
+- Drizzle alternative not allowed — stick to Prisma
+- Deployment ready structure (Vercel + Railway/Neon)
+
+**Project Structure (must follow exactly):**
+/app
+  ├── (storefront)          ← public customer site
+  ├── (admin)               ← /admin dashboard (protected)
+  ├── api/webhooks/stripe   ← all webhooks
+  ├── dashboard             ← admin layout
+/lib, /components, /prisma, /types, /emails, /actions (server actions)
+
+**Must-Have Features (ALL of these, production-ready):**
+
+1. **Admin CMS Dashboard** (beautiful & fast)
+   - Login protected
+   - Sidebar navigation
+   - Dashboard overview (total sales, orders, revenue chart, top products)
+   - Products CRUD (title, description, price, sale price, stock, SKU, categories, tags, variants with different sizes/colors, SEO meta, rich text with Tiptap)
+   - Bulk upload products via CSV
+   - Media library (drag-drop multiple images)
+   - Categories & Collections management
+   - Orders management (status: pending, confirmed, shipped, delivered, cancelled + tracking number)
+   - Customers list + view orders
+   - Coupons & Discounts (percentage, fixed, free shipping, expiry)
+   - Inventory management with low-stock alerts
+   - Analytics page (sales over time, top products, traffic)
+
+2. **Storefront (Customer Side)**
+   - Homepage with hero, featured products, categories grid, best sellers
+   - Product listing + filters (price, category, sort by price/new)
+   - Product page (images gallery, variants selector, description tabs, reviews, related products)
+   - Cart (add/remove, quantity, persist with localStorage + server)
+   - Wishlist
+   - Checkout with Stripe (one-page modern checkout)
+   - User account (orders history, addresses, profile)
+
+3. **Other Production Features**
+   - Full SEO (dynamic meta tags, Open Graph, JSON-LD, sitemap.xml)
+   - Responsive + mobile-first (perfect on all devices)
+   - Dark mode support
+   - Rate limiting & security (no direct DB access)
+   - Email notifications for order status changes
+   - Stripe webhooks for payment success/failed
+   - Search (use Prisma full-text or simple for now)
+   - Reviews & ratings system (admin moderation)
+   - Multi-currency ready (INR + USD switcher)
+   - Indian payment ready (Razorpay integration comment ready)
+
+**Instructions for you:**
+1. First create the complete project with `npx create-next-app@latest` structure.
+2. Generate all Prisma schema first (show me the schema.sql equivalent).
+3. Then build file by file — never give partial code. After each major section (Prisma → Auth → Admin → Storefront), ask me "Ready for next part?" before continuing.
+4. Use Server Actions wherever possible (no API routes except webhooks).
+5. Make UI extremely clean and modern (like Shopify + Vercel style).
+6. Add proper error handling, loading states, toast notifications (Sonner).
+7. Include .env.example with all required keys.
+8. Add README.md with setup instructions, seed command, and deployment steps.
+9. Make it 100% production ready — no placeholder comments like "TODO".
+
+Start by creating the project folder name "ecom-cms" and show me the full Prisma schema + package.json first.
+Then proceed step by step.
+
+Begin now.

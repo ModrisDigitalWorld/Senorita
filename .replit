@@ -1,0 +1,39 @@
+modules = ["nodejs-24", "postgresql-16"]
+
+  [[artifacts]]
+  id = "artifacts/senorita"
+
+  [[artifacts]]
+  id = "artifacts/api-server"
+
+  [[artifacts]]
+  id = "artifacts/mockup-sandbox"
+
+  [deployment]
+  router = "application"
+  deploymentTarget = "autoscale"
+
+  [deployment.postBuild]
+  args = ["pnpm", "store", "prune"]
+  env = { "CI" = "true" }
+
+  [workflows]
+
+  [agent]
+  stack = "PNPM_WORKSPACE"
+expertMode = true
+
+  [postMerge]
+  path = "scripts/post-merge.sh"
+  timeoutMs = 20000
+
+[userenv]
+
+[userenv.shared]
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = "587"
+SMTP_USER = "senorita.store.karnal@gmail.com"
+
+[nix]
+channel = "stable-25_05"
+  

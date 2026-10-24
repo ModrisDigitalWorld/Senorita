@@ -1,0 +1,39 @@
+I have a custom CMS admin panel at this URL: 
+https://0c7f520c-65be-4902-add7-83f02ed8978d-00-dh4o8wbfu3dd.picard.replit.dev/admin/categories
+
+This is for a women's fashion e-commerce store (Senorita Store).
+
+Currently, when I create or edit a Category, I want to add a new field called **"Similar Products"** or **"Recommended / Similar Products"**.
+
+### Requirements:
+
+1. **Field Type**: Multiple reference / relation to the **Products** collection.
+   - It should allow selecting multiple products (like a repeatable relation or many-to-many).
+   - Display as a searchable dropdown or relation picker where I can search and add products by name or SKU.
+
+2. **Label & Help Text**:
+   - Label: "Similar Products" (or "Recommended Products for this Category")
+   - Help text: "Select products that should be shown as 'Similar Products' or 'You May Also Like' on this category page. These will appear on the frontend category listing."
+
+3. **UI in Admin**:
+   - Place this field at the bottom of the category form (after description, image, SEO fields, etc.).
+   - Make it look clean and consistent with the rest of the admin UI.
+   - Allow reordering of selected products (drag & drop if possible).
+   - Show product thumbnail + name + price in the selected items for easy identification.
+
+4. **Backend / Database**:
+   - Create a proper relation between Category and Product.
+   - If your CMS supports it, make it a **one-way relation** from Category → Products (so we manually choose similar products per category).
+   - Ensure the relation is saved correctly and queryable via API.
+
+5. **Frontend Usage (optional note)**:
+   - Later on the category page, we will display these selected similar products in a separate "Similar Products" or "Customers Also Viewed" section.
+
+Please implement this feature and show me:
+- How the new field looks in the category edit form
+- Any code changes you made (schema / model / component)
+- How I can query these similar products from the API
+
+If my CMS is built with React + Tailwind + some backend (Replit), please use clean, modern Tailwind styling for the field.
+
+Let me know if you need more details or screenshots of the current category form.

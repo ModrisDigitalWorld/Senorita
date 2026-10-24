@@ -1,0 +1,27 @@
+Create a stunning, ultra-modern e-commerce website theme for a trendy girls' clothing brand targeting ages 14–25. The overall aesthetic is irresistibly feminine, tempting, seductive and confident — think "want me, crave me" energy without being vulgar: luxurious, flirty, aspirational and addictive to scroll.
+
+Core mood & atmosphere:
+- Sensual yet playful femininity
+- Magnetic, "can't look away" allure
+- High-fashion editorial feeling mixed with street-style sexiness
+- Dreamy, slightly intoxicating, makes girls feel powerful and desired
+
+Color palette (2026 trendy + tempting):
+- Dominant: deep berry, candy pink, hot magenta, vibrant violet / lavender accents
+- Seductive dark mode base: almost black / deep charcoal with glowing neon-pink, electric violet, and shimmering metallic gold/silver highlights
+- Accent pops: chartreuse green, canary yellow, icy blue for buttons/CTAs to create contrast and temptation
+- Soft gradients: pink-to-purple-to-magenta fades, velvet-like textures
+
+Visual style & elements:
+- Hero section: huge, cinematic full-screen photos or looping videos of confident, diverse beautiful girls (16–24) in seductive poses wearing the clothes — low camera angles, soft golden-hour lighting, slight motion blur, hair flowing, intense eye contact with viewer
+- Very large, high-resolution product photos with dramatic lighting, close-ups on fabrics (sheer, satin, lace, silky textures), body-hugging fits, bare shoulders, low necklines, mini lengths
+- Elegant, modern sans-serif fonts + one very feminine script font for headlines / brand name (thin, cursive, luxurious)
+- Subtle animations: slow glow on hover, fabric ripple effect, heart-beat pulse on "Add to Bag", seductive zoom on product images
+- Layout: minimal but bold — lots of negative space around big visuals, asymmetric layouts, overlapping elements, floating text
+- Tempting UI: "Shop the Look", "Steal Her Style", "Limited Drop", "Only X Left" urgency badges in glowing pink/neon
+- Footer & navigation: dark with metallic shimmer, rose gold hover effects
+
+Overall feeling the website should evoke: 
+"irresistible desire, confidence boost, 'this will make me look dangerously hot', scroll addiction, FOMO, luxury street-sexy girls' fashion brand"
+
+--ar 16:9 --stylize 250 --v 6 --q 2
