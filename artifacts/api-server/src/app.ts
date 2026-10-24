@@ -29,7 +29,8 @@ app.use(
         ALLOWED_ORIGINS.some((allowed) => origin === allowed) ||
         origin.endsWith(".replit.dev") ||
         origin.endsWith(".repl.co") ||
-        origin.endsWith(".senoritastore.com")
+        origin.endsWith(".senoritastore.com") ||
+        origin.endsWith(".vercel.app")
       ) {
         callback(null, true);
       } else if (process.env.NODE_ENV !== "production") {
