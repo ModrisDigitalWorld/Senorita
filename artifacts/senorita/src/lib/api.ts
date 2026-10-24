@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:5000/api";
+// const API_BASE = "http://localhost:5000/api";
+const API_BASE = "senorita-y5p8/api";
 
 function getToken(): string | null {
   return localStorage.getItem("senorita_token");
