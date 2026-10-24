@@ -8,6 +8,7 @@ const app: Application = express();
 const ALLOWED_ORIGINS = [
   "https://www.senoritastore.com",
   "https://senoritastore.com",
+  "https://senorita-tawny.vercel.app/",
   process.env.FRONTEND_URL,
   process.env.REPL_SLUG
     ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
