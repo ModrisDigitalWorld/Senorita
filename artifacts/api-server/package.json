@@ -7,6 +7,7 @@
     "dev": "tsx --env-file=.env ./src/index.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
+    "build": "tsx ./build.ts --output dist",
     "test:watch": "vitest"
   },
   "dependencies": {
