@@ -42,14 +42,14 @@ const ALLOWED_ORIGINS = [
 //     credentials: true,
 //   })
 // );
-app.use(cors({origin:"https://senorita-tawny.vercel.app",credentials:true}))
+app.use(cors({origin:"https://senorita-artifacts.vercel.app",credentials:true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
 app.get("/", (req,res)=>{
-res.send({
+ return res.send({
   message:"Server is Running"
 })
 })
