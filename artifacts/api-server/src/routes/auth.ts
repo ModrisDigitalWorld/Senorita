@@ -98,8 +98,14 @@ router.post("/auth/addresses", authMiddleware, async (req: AuthRequest, res) => 
   }
 });
 
+// router.delete("/auth/addresses/:id", authMiddleware, async (req: AuthRequest, res) => {
+//   await db.delete(addressesTable).where(eq(addressesTable.id, req.params.id));
+//   res.json({ success: true });
+// });
+
 router.delete("/auth/addresses/:id", authMiddleware, async (req: AuthRequest, res) => {
-  await db.delete(addressesTable).where(eq(addressesTable.id, req.params.id));
+  const addressId = req.params.id as string;
+  await db.delete(addressesTable).where(eq(addressesTable.id, addressId));
   res.json({ success: true });
 });
 

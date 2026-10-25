@@ -74,33 +74,87 @@ router.post("/products", authMiddleware, adminOnly, async (req: AuthRequest, res
   }
 });
 
+// router.put("/products/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const { variants, ...productData } = req.body;
+//     const [product] = await db.update(productsTable).set({ ...productData, updatedAt: new Date() }).where(eq(productsTable.id, req.params.id)).returning();
+//     if (variants !== undefined) {
+//       await db.delete(productVariantsTable).where(eq(productVariantsTable.productId, req.params.id));
+//       if (variants.length) {
+//         await db.insert(productVariantsTable).values(variants.map((v: { type: string; value: string; stock?: number; priceModifier?: number }) => ({ ...v, productId: req.params.id })));
+//       }
+//     }
+//     res.json(product);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to update product" });
+//   }
+// });
+
 router.put("/products/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
+    const id = String(req.params.id); // Explicitly ensure it's a single string
     const { variants, ...productData } = req.body;
-    const [product] = await db.update(productsTable).set({ ...productData, updatedAt: new Date() }).where(eq(productsTable.id, req.params.id)).returning();
+    
+    const [product] = await db.update(productsTable)
+      .set({ ...productData, updatedAt: new Date() })
+      .where(eq(productsTable.id, id))
+      .returning();
+      
     if (variants !== undefined) {
-      await db.delete(productVariantsTable).where(eq(productVariantsTable.productId, req.params.id));
+      await db.delete(productVariantsTable).where(eq(productVariantsTable.productId, id));
       if (variants.length) {
-        await db.insert(productVariantsTable).values(variants.map((v: { type: string; value: string; stock?: number; priceModifier?: number }) => ({ ...v, productId: req.params.id })));
+        await db.insert(productVariantsTable).values(
+          variants.map((v: { type: string; value: string; stock?: number; priceModifier?: number }) => ({ 
+            ...v, 
+            productId: id 
+          }))
+        );
       }
     }
     res.json(product);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to update product" });
   }
 });
+// router.patch("/products/:id/stock", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const { stock, variants } = req.body;
+//     if (stock !== undefined) {
+//       await db.update(productsTable).set({ stock, updatedAt: new Date() }).where(eq(productsTable.id, req.params.id));
+//     }
+//     if (variants?.length) {
+//       for (const v of variants as { id: string; stock: number }[]) {
+//         await db.update(productVariantsTable).set({ stock: v.stock }).where(eq(productVariantsTable.id, v.id));
+//       }
+//     }
+//     res.json({ success: true });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to update stock" });
+//   }
+// });
 
 router.patch("/products/:id/stock", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
+    const id = String(req.params.id); // Convert Express route param to a single string
     const { stock, variants } = req.body;
+    
     if (stock !== undefined) {
-      await db.update(productsTable).set({ stock, updatedAt: new Date() }).where(eq(productsTable.id, req.params.id));
+      await db.update(productsTable)
+        .set({ stock, updatedAt: new Date() })
+        .where(eq(productsTable.id, id));
     }
+    
     if (variants?.length) {
       for (const v of variants as { id: string; stock: number }[]) {
-        await db.update(productVariantsTable).set({ stock: v.stock }).where(eq(productVariantsTable.id, v.id));
+        const variantId = String(v.id); // Ensure variant ID is also a string
+        await db.update(productVariantsTable)
+          .set({ stock: v.stock })
+          .where(eq(productVariantsTable.id, variantId));
       }
     }
+    
     res.json({ success: true });
   } catch (err) {
     console.error(err);
@@ -124,9 +178,20 @@ router.get("/admin/stock", authMiddleware, adminOnly, async (req: AuthRequest, r
   }
 });
 
+// router.delete("/products/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   await db.delete(productsTable).where(eq(productsTable.id, req.params.id));
+//   res.json({ success: true });
+// });
+
 router.delete("/products/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
-  await db.delete(productsTable).where(eq(productsTable.id, req.params.id));
-  res.json({ success: true });
+  try {
+    const id = String(req.params.id);
+    await db.delete(productsTable).where(eq(productsTable.id, id));
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete product" });
+  }
 });
 
 export default router;

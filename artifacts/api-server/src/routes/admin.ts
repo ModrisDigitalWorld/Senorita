@@ -115,9 +115,25 @@ router.post("/coupons", authMiddleware, adminOnly, async (req: AuthRequest, res)
   }
 });
 
+// router.put("/coupons/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const [coupon] = await db.update(couponsTable).set(req.body).where(eq(couponsTable.id, req.params.id)).returning();
+//     res.json(coupon);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to update coupon" });
+//   }
+// });
+
+// router.delete("/coupons/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   await db.delete(couponsTable).where(eq(couponsTable.id, req.params.id));
+//   res.json({ success: true });
+// });
+
+
 router.put("/coupons/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
-    const [coupon] = await db.update(couponsTable).set(req.body).where(eq(couponsTable.id, req.params.id)).returning();
+    const couponId = req.params.id as string;
+    const [coupon] = await db.update(couponsTable).set(req.body).where(eq(couponsTable.id, couponId)).returning();
     res.json(coupon);
   } catch (err) {
     res.status(500).json({ error: "Failed to update coupon" });
@@ -125,7 +141,8 @@ router.put("/coupons/:id", authMiddleware, adminOnly, async (req: AuthRequest, r
 });
 
 router.delete("/coupons/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
-  await db.delete(couponsTable).where(eq(couponsTable.id, req.params.id));
+  const couponId = req.params.id as string;
+  await db.delete(couponsTable).where(eq(couponsTable.id, couponId));
   res.json({ success: true });
 });
 

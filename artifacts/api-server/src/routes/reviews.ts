@@ -91,30 +91,65 @@ router.get("/admin/reviews", authMiddleware, adminOnly, async (_req, res) => {
   }
 });
 
+// router.put("/admin/reviews/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const { status, rating, title, comment } = req.body;
+//     const update: Record<string, unknown> = {};
+//     if (status !== undefined) update.status = status;
+//     if (rating !== undefined) update.rating = rating;
+//     if (title !== undefined) update.title = title;
+//     if (comment !== undefined) update.comment = comment;
+//     const [review] = await db
+//       .update(reviewsTable)
+//       .set(update)
+//       .where(eq(reviewsTable.id, req.params.id))
+//       .returning();
+//     res.json(review);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to update review" });
+//   }
+// });
+
+// router.delete("/admin/reviews/:id", authMiddleware, adminOnly, async (req, res) => {
+//   try {
+//     await db.delete(reviewsTable).where(eq(reviewsTable.id, req.params.id));
+//     res.json({ success: true });
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to delete review" });
+//   }
+// });
+
+
 router.put("/admin/reviews/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
+    const id = String(req.params.id);
     const { status, rating, title, comment } = req.body;
     const update: Record<string, unknown> = {};
     if (status !== undefined) update.status = status;
     if (rating !== undefined) update.rating = rating;
     if (title !== undefined) update.title = title;
     if (comment !== undefined) update.comment = comment;
+    
     const [review] = await db
       .update(reviewsTable)
       .set(update)
-      .where(eq(reviewsTable.id, req.params.id))
+      .where(eq(reviewsTable.id, id))
       .returning();
+      
     res.json(review);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to update review" });
   }
 });
 
-router.delete("/admin/reviews/:id", authMiddleware, adminOnly, async (req, res) => {
+router.delete("/admin/reviews/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
-    await db.delete(reviewsTable).where(eq(reviewsTable.id, req.params.id));
+    const id = String(req.params.id);
+    await db.delete(reviewsTable).where(eq(reviewsTable.id, id));
     res.json({ success: true });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to delete review" });
   }
 });

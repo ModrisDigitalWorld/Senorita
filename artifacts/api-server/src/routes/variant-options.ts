@@ -33,26 +33,60 @@ router.post("/variant-options", authMiddleware, adminOnly, async (req: AuthReque
   }
 });
 
+// router.put("/variant-options/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const { value, hex, sortOrder } = req.body;
+//     const updates: Record<string, any> = {};
+//     if (value !== undefined) updates.value = value.trim();
+//     if (hex !== undefined) updates.hex = hex;
+//     if (sortOrder !== undefined) updates.sortOrder = sortOrder;
+//     const [row] = await db.update(variantOptionsTable).set(updates).where(eq(variantOptionsTable.id, req.params.id)).returning();
+//     if (!row) { res.status(404).json({ error: "Not found" }); return; }
+//     res.json(row);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to update variant option" });
+//   }
+// });
+
+// router.delete("/variant-options/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     await db.delete(variantOptionsTable).where(eq(variantOptionsTable.id, req.params.id));
+//     res.json({ success: true });
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to delete variant option" });
+//   }
+// });
+
+
 router.put("/variant-options/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
+    const id = String(req.params.id);
     const { value, hex, sortOrder } = req.body;
     const updates: Record<string, any> = {};
     if (value !== undefined) updates.value = value.trim();
     if (hex !== undefined) updates.hex = hex;
     if (sortOrder !== undefined) updates.sortOrder = sortOrder;
-    const [row] = await db.update(variantOptionsTable).set(updates).where(eq(variantOptionsTable.id, req.params.id)).returning();
+    
+    const [row] = await db.update(variantOptionsTable)
+      .set(updates)
+      .where(eq(variantOptionsTable.id, id))
+      .returning();
+      
     if (!row) { res.status(404).json({ error: "Not found" }); return; }
     res.json(row);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to update variant option" });
   }
 });
 
 router.delete("/variant-options/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
-    await db.delete(variantOptionsTable).where(eq(variantOptionsTable.id, req.params.id));
+    const id = String(req.params.id);
+    await db.delete(variantOptionsTable).where(eq(variantOptionsTable.id, id));
     res.json({ success: true });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to delete variant option" });
   }
 });

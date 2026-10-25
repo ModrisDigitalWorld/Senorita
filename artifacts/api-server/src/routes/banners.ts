@@ -39,9 +39,39 @@ router.post("/banners", authMiddleware, adminOnly, async (req: AuthRequest, res)
   }
 });
 
+// router.put("/banners/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { title, subtitle, image, link, buttonText, position, sortOrder, isActive } = req.body;
+//     const [banner] = await db.update(bannersTable).set({
+//       title, subtitle: subtitle || null, image, link: link || null,
+//       buttonText: buttonText || null, position: position || "hero",
+//       sortOrder: sortOrder ?? 0, isActive: isActive ?? true,
+//       updatedAt: new Date(),
+//     }).where(eq(bannersTable.id, id)).returning();
+//     if (!banner) { res.status(404).json({ error: "Banner not found" }); return; }
+//     res.json(banner);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to update banner" });
+//   }
+// });
+
+// router.delete("/banners/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
+//   try {
+//     const { id } = req.params;
+//     await db.delete(bannersTable).where(eq(bannersTable.id, id));
+//     res.json({ success: true });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to delete banner" });
+//   }
+// });
+
+
 router.put("/banners/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { title, subtitle, image, link, buttonText, position, sortOrder, isActive } = req.body;
     const [banner] = await db.update(bannersTable).set({
       title, subtitle: subtitle || null, image, link: link || null,
@@ -59,7 +89,7 @@ router.put("/banners/:id", authMiddleware, adminOnly, async (req: AuthRequest, r
 
 router.delete("/banners/:id", authMiddleware, adminOnly, async (req: AuthRequest, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     await db.delete(bannersTable).where(eq(bannersTable.id, id));
     res.json({ success: true });
   } catch (err) {

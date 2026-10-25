@@ -102,6 +102,98 @@ router.post("/razorpay/create-order", optionalAuth, async (req: AuthRequest, res
 });
 
 // Verify payment signature and mark order as paid
+// router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, res) => {
+//   try {
+//     const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = req.body;
+//     const keySecret = process.env.RAZORPAY_KEY_SECRET;
+//     if (!keySecret) {
+//       res.status(503).json({ error: "Razorpay not configured" });
+//       return;
+//     }
+
+//     const expectedSignature = crypto
+//       .createHmac("sha256", keySecret)
+//       .update(`${razorpayOrderId}|${razorpayPaymentId}`)
+//       .digest("hex");
+
+//     if (expectedSignature !== razorpaySignature) {
+//       res.status(400).json({ error: "Invalid payment signature" });
+//       return;
+//     }
+
+//     // Mark order as paid
+//     await db.update(ordersTable)
+//       .set({ paymentStatus: "paid", status: "confirmed", updatedAt: new Date() })
+//       .where(eq(ordersTable.id, orderId));
+
+//     // Decrement stock for ordered items
+//     const orderItems = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, orderId));
+//     for (const item of orderItems) {
+//       // Decrement main product stock
+//       await db.update(productsTable)
+//         .set({ stock: sql`GREATEST(stock - ${item.quantity}, 0)` })
+//         .where(eq(productsTable.id, item.productId));
+
+//       // Decrement variant stock if a variant was selected
+//       const varInfo = item.variantInfo as any;
+//       if (varInfo?.size) {
+//         await db.update(productVariantsTable)
+//           .set({ stock: sql`GREATEST(stock - ${item.quantity}, 0)` })
+//           .where(and(
+//             eq(productVariantsTable.productId, item.productId),
+//             eq(productVariantsTable.type, "size"),
+//             eq(productVariantsTable.value, varInfo.size),
+//           ));
+//       }
+//       if (varInfo?.color) {
+//         await db.update(productVariantsTable)
+//           .set({ stock: sql`GREATEST(stock - ${item.quantity}, 0)` })
+//           .where(and(
+//             eq(productVariantsTable.productId, item.productId),
+//             eq(productVariantsTable.type, "color"),
+//             eq(productVariantsTable.value, varInfo.color),
+//           ));
+//       }
+//     }
+
+//     // Clear cart
+//     if (req.user?.id) {
+//       await db.delete(cartItemsTable).where(eq(cartItemsTable.userId, req.user.id));
+//     }
+
+//     // Send confirmation email
+//     try {
+//       const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId)).limit(1);
+//       const items = orderItems;
+//       const shippingAddress = order?.shippingAddress as any;
+//       const emailTo = shippingAddress?.email || (
+//         req.user?.id
+//           ? (await db.select({ email: usersTable.email, name: usersTable.name }).from(usersTable).where(eq(usersTable.id, req.user.id)).limit(1))[0]?.email
+//           : null
+//       );
+//       if (emailTo && order) {
+//         await sendOrderConfirmation({
+//           to: emailTo,
+//           name: shippingAddress?.name || "Customer",
+//           orderId: order.id,
+//           items: items.map(i => ({ name: i.productName, quantity: i.quantity, price: i.price })),
+//           total: order.total,
+//           address: shippingAddress,
+//           paymentMethod: "online",
+//         });
+//       }
+//     } catch (emailErr) {
+//       console.warn("Confirmation email failed:", emailErr);
+//     }
+
+//     res.json({ success: true, orderId });
+//   } catch (err) {
+//     console.error("Razorpay verify-payment error:", err);
+//     res.status(500).json({ error: "Payment verification failed" });
+//   }
+// });
+
+
 router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, res) => {
   try {
     const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = req.body;
@@ -121,18 +213,22 @@ router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, r
       return;
     }
 
+    const safeOrderId = String(orderId);
+
     // Mark order as paid
     await db.update(ordersTable)
       .set({ paymentStatus: "paid", status: "confirmed", updatedAt: new Date() })
-      .where(eq(ordersTable.id, orderId));
+      .where(eq(ordersTable.id, safeOrderId));
 
     // Decrement stock for ordered items
-    const orderItems = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, orderId));
+    const orderItems = await db.select().from(orderItemsTable).where(eq(orderItemsTable.orderId, safeOrderId));
     for (const item of orderItems) {
+      const productId = String(item.productId);
+
       // Decrement main product stock
       await db.update(productsTable)
         .set({ stock: sql`GREATEST(stock - ${item.quantity}, 0)` })
-        .where(eq(productsTable.id, item.productId));
+        .where(eq(productsTable.id, productId));
 
       // Decrement variant stock if a variant was selected
       const varInfo = item.variantInfo as any;
@@ -140,7 +236,7 @@ router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, r
         await db.update(productVariantsTable)
           .set({ stock: sql`GREATEST(stock - ${item.quantity}, 0)` })
           .where(and(
-            eq(productVariantsTable.productId, item.productId),
+            eq(productVariantsTable.productId, productId),
             eq(productVariantsTable.type, "size"),
             eq(productVariantsTable.value, varInfo.size),
           ));
@@ -149,7 +245,7 @@ router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, r
         await db.update(productVariantsTable)
           .set({ stock: sql`GREATEST(stock - ${item.quantity}, 0)` })
           .where(and(
-            eq(productVariantsTable.productId, item.productId),
+            eq(productVariantsTable.productId, productId),
             eq(productVariantsTable.type, "color"),
             eq(productVariantsTable.value, varInfo.color),
           ));
@@ -158,19 +254,26 @@ router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, r
 
     // Clear cart
     if (req.user?.id) {
-      await db.delete(cartItemsTable).where(eq(cartItemsTable.userId, req.user.id));
+      const userId = String(req.user.id);
+      await db.delete(cartItemsTable).where(eq(cartItemsTable.userId, userId));
     }
 
     // Send confirmation email
     try {
-      const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId)).limit(1);
+      const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, safeOrderId)).limit(1);
       const items = orderItems;
       const shippingAddress = order?.shippingAddress as any;
-      const emailTo = shippingAddress?.email || (
-        req.user?.id
-          ? (await db.select({ email: usersTable.email, name: usersTable.name }).from(usersTable).where(eq(usersTable.id, req.user.id)).limit(1))[0]?.email
-          : null
-      );
+      
+      let emailTo = shippingAddress?.email;
+      if (!emailTo && req.user?.id) {
+        const userId = String(req.user.id);
+        const [user] = await db.select({ email: usersTable.email, name: usersTable.name })
+          .from(usersTable)
+          .where(eq(usersTable.id, userId))
+          .limit(1);
+        emailTo = user?.email;
+      }
+
       if (emailTo && order) {
         await sendOrderConfirmation({
           to: emailTo,
@@ -186,7 +289,7 @@ router.post("/razorpay/verify-payment", optionalAuth, async (req: AuthRequest, r
       console.warn("Confirmation email failed:", emailErr);
     }
 
-    res.json({ success: true, orderId });
+    res.json({ success: true, orderId: safeOrderId });
   } catch (err) {
     console.error("Razorpay verify-payment error:", err);
     res.status(500).json({ error: "Payment verification failed" });
