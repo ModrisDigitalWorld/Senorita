@@ -47,7 +47,7 @@ const allowlist = [
 
 async function buildAll() {
   const distDir = path.resolve(__dirname, "public");
-  await rm(distDir, { recursive: true, force: true });
+  // await rm(distDir, { recursive: true, force: true });
 
   console.log("building server...");
   const pkgPath = path.resolve(__dirname, "package.json");
