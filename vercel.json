@@ -4,13 +4,11 @@
   "services": {
     "api-server": {
       "root": "artifacts/api-server",
-      "framework": "express",
-      "routePrefix": "/api"
+      "framework": "express"
     },
     "senorita": {
       "root": "artifacts/senorita",
-      "framework": "vite",
-      "routePrefix": "/"
+      "framework": "vite"
     }
   }
 }
