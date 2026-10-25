@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx --env-file=.env ./src/index.ts"
+    "dev": "tsx --env-file=.env ./src/index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",
