@@ -48,6 +48,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
+app.get("/", (req,res)=>{
+res.send({
+  message:"Server is Running"
+})
+})
+
 app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof multer.MulterError) {
     if (err.code === "LIMIT_FILE_SIZE") {
