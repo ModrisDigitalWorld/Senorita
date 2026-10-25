@@ -1,9 +1,24 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "framework": null,
   "buildCommand": "pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/senorita run build",
   "outputDirectory": "dist",
   "installCommand": "pnpm install --frozen-lockfile",
+  "services": {
+    "api-server": {
+      "root": "artifacts/api-server",
+      "framework": "express"
+    },
+    "mockup-sandbox": {
+      "root": "artifacts/mockup-sandbox",
+      "framework": "vite"
+    },
+    "senorita": {
+      "root": "artifacts/senorita",
+      "framework": "vite"
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.ts" },
     { "source": "/(.*)", "destination": "/index.html" }
