@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": null,
-"buildCommand": "pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/senorita run build && mkdir -p dist && cp -r senorita/dist/* dist/",
+  "buildCommand": "pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/senorita run build",
   "outputDirectory": "dist",
   "installCommand": "pnpm install --frozen-lockfile",
   "rewrites": [
