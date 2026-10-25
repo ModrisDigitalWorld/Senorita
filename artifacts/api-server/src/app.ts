@@ -46,13 +46,14 @@ app.use(cors({origin:"https://senorita-artifacts.vercel.app",credentials:true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", router);
-
 app.get("/", (req,res)=>{
- return res.send({
+ return res.status(200).send({
   message:"Server is Running"
 })
 })
+app.use("/api", router);
+
+
 
 app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof multer.MulterError) {
