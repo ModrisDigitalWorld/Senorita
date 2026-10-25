@@ -46,7 +46,7 @@ const allowlist = [
 ];
 
 async function buildAll() {
-  const distDir = path.resolve(__dirname, "dist");
+  const distDir = path.resolve(__dirname, "public");
   await rm(distDir, { recursive: true, force: true });
 
   console.log("building server...");
