@@ -1,5 +1,5 @@
 // const API_BASE = "http://localhost:5000/api";
-const API_BASE = "https://senorita-artifacts.vercel.app/api";
+const API_BASE = "https://senorita-4eb9-dvneidqp7-nitish-c1b2.vercel.app/api";
 
 function getToken(): string | null {
   return localStorage.getItem("senorita_token");
