@@ -42,7 +42,7 @@ const ALLOWED_ORIGINS = [
 //     credentials: true,
 //   })
 // );
-app.use(cors({origin:"https://senorita-artifacts.vercel.app",credentials:true}))
+app.use(cors({origin:"https://www.senoritastores.com",credentials:true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
