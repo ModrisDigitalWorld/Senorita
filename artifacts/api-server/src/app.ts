@@ -46,7 +46,7 @@ app.use(cors({origin:"https://senorita-artifacts.vercel.app",credentials:true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req,res)=>{
+app.get("/api/health", (req,res)=>{
  return res.status(200).send({
   message:"Server is Running"
 })

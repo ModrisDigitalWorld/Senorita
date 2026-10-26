@@ -4,12 +4,16 @@
     "api-server": {
       "root": "artifacts/api-server",
       "framework": "express",
-      "entrypoint": "public/app.cjs"
+      "entrypoint": "src/index.ts",
+      "routePrefix": "/api"
+
 
     },
     "senorita": {
       "root": "artifacts/senorita",
-      "framework": "vite"
+      "framework": "vite",
+      "routePrefix": "/"
+
     }
   }
 }
